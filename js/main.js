@@ -10,31 +10,41 @@ $(document).ready(function() {
     }, 600);
 })
 
-function init(){
+function init() {
+    document.getElementById('titleWeb').innerHTML = CONFIG.titleWeb
     $('#title').text(CONFIG.title)
     $('#desc').text(CONFIG.desc)
     $('#yes').text(CONFIG.btnYes)
     $('#no').text(CONFIG.btnNo)
+
+    var xYes = (0.9 * $(window).width() - $('#yes').width() - $('#no').width()) / 2;
+    var xNo = xYes + $('#yes').width() + 0.1 * $(window).width();
+    var y = 0.75 * $(window).height();
+    $('#yes').css("left", xYes);
+    $('#yes').css("top", y);
+
+    $('#no').css("left", xNo);
+    $('#no').css("top", y);
 }
 
-function firstQuestion(){
+function firstQuestion() {
     $('.content').hide();
     Swal.fire({
         title: CONFIG.introTitle,
         text: CONFIG.introDesc,
-        imageUrl: 'img/lookMe.jpg',
+        imageUrl: 'img/logi.gif',
         imageWidth: 300,
         imageHeight: 300,
         background: '#fff url("img/iput-bg.jpg")',
         imageAlt: 'Custom image',
         confirmButtonText: CONFIG.btnIntro
-      }).then(function(){
+    }).then(function() {
         $('.content').show(200);
-      })
+    })
 }
 
- // switch button position
- function switchButton() {
+// switch button position
+function switchButton() {
     var audio = new Audio('sound/duck.mp3');
     audio.play();
     var leftNo = $('#no').css("left");
@@ -46,11 +56,11 @@ function firstQuestion(){
     $('#yes').css("left", leftNo);
     $('#yes').css("top", topNO);
 }
-// move random button póition
+// move random button position
 function moveButton() {
     var audio = new Audio('sound/Swish1.mp3');
     audio.play();
-    var x = Math.random() * ($(window).width() - $('#no').width()) * 0.9 ;
+    var x = Math.random() * ($(window).width() - $('#no').width()) * 0.9;
     var y = Math.random() * ($(window).height() - $('#no').height()) * 0.9;
     var left = x + 'px';
     var top = y + 'px';
@@ -62,14 +72,14 @@ init()
 
 var n = 0;
 $('#no').mousemove(function() {
-    if (n < 1)
+    if (Math.random() < 0.5 || n == 1)
         switchButton();
-    if (n > 1)
+    else
         moveButton();
     n++;
 });
 $('#no').click(() => {
-    if (screen.width>=900)
+    if (screen.width >= 900)
         switchButton();
 })
 
@@ -125,9 +135,8 @@ $('#yes').click(function() {
                 confirmButtonColor: '#83d0c9',
                 onClose: () => {
                     window.location = CONFIG.messLink;
-                  }
+                }
             })
         }
     })
 })
-
